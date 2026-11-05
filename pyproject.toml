@@ -1,0 +1,36 @@
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+filterwarnings = [
+    "ignore::DeprecationWarning:streamlit.*",
+    "ignore::DeprecationWarning:pandas.*",
+]
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["tests/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+exclude = [".venv", ".data"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "ARG", "RET", "SIM"]
+ignore = [
+    "SIM105",  # try/except/pass é intencional nos pontos "nunca quebre"
+    "E501",    # a linha do snapshot embutido é enorme de propósito
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ARG001", "ARG002", "ARG005"]

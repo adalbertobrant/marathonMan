@@ -1,0 +1,22 @@
+# ambiente
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+
+# dados locais (logs de navegação NÃO vão para o git)
+.data/
+*.db
+*.db-wal
+*.db-shm
+
+# testes e cobertura
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# ferramentas
+.ruff_cache/
+.DS_Store
