@@ -1,7 +1,9 @@
-"""Calendário .ics da programação e o recado guardado para 14/11."""
+"""Calendário .ics da programação e a surpresa guardada para 14/11."""
 
 from __future__ import annotations
 
+import html
+import sqlite3
 from datetime import date, datetime, timezone
 
 from conftest import ROOT, navegar
@@ -142,7 +144,7 @@ def test_pagina_oferece_o_download(app_factory):
     assert botoes == ["📅 Adicionar à minha agenda (.ics)"]
 
 
-def test_pagina_mostra_o_pedido_de_like_e_o_recado(app_factory):
+def test_pagina_mostra_o_pedido_de_like(app_factory):
     at = app_factory()
     at.run()
     navegar(at, "programacao")
@@ -151,7 +153,6 @@ def test_pagina_mostra_o_pedido_de_like_e_o_recado(app_factory):
     assert "Curtiu? Deixa um like" in texto
     assert "github.com/adalbertobrant" in texto
     assert "dev.to/adalbertobrant" in texto
-    assert "Recado guardado para 14/11" in texto
     assert "marathonMan" in texto
 
 
@@ -161,3 +162,105 @@ def test_home_tambem_lembra_do_like(app_factory):
     texto = " ".join(m.value for m in at.markdown)
     assert "Gostou? Segue o" in texto
     assert "marathonMan" in texto
+
+
+# ---------------------------------------------------------------------------
+# A surpresa: nada antes da data, recado completo no dia
+# ---------------------------------------------------------------------------
+
+
+def test_pagina_esconde_a_surpresa_antes_da_data(app_factory):
+    at = app_factory(SURPRESA_EM="2099-01-01")
+    at.run()
+    navegar(at, "programacao")
+
+    texto = " ".join(m.value for m in at.markdown)
+    assert "14/11" not in texto
+    assert "Recado guardado" not in texto
+    assert "aniversário" not in texto.lower()
+    assert "experimento que é viver" not in texto
+    assert "Tinha um recado guardado" not in texto
+
+
+def test_home_esconde_a_surpresa_antes_da_data(app_factory):
+    at = app_factory(SURPRESA_EM="2099-01-01")
+    at.run()
+
+    texto = " ".join(m.value for m in at.markdown)
+    assert "experimento que é viver" not in texto
+    assert "14/11" not in texto
+
+
+def test_surpresa_aparece_na_programacao_no_dia(app_factory):
+    at = app_factory(SURPRESA_EM="2020-01-01")
+    at.run()
+    navegar(at, "programacao")
+
+    assert list(at.exception) == []
+    texto = " ".join(m.value for m in at.markdown)
+    assert "Tinha um recado guardado para hoje" in texto
+    assert app.RECADO_ANIVERSARIO in html.unescape(texto)
+    assert "dev.to/adalbertobrant" in texto
+    assert "marathonMan" in texto
+
+
+def test_surpresa_aparece_na_home_no_dia(app_factory):
+    at = app_factory(SURPRESA_EM="2020-01-01")
+    at.run()
+
+    texto = html.unescape(" ".join(m.value for m in at.markdown))
+    assert app.RECADO_ANIVERSARIO in texto
+
+
+def test_surpresa_aparece_uma_vez_por_render(app_factory):
+    at = app_factory(SURPRESA_EM="2020-01-01")
+    at.run()
+    navegar(at, "programacao")
+
+    texto = html.unescape(" ".join(m.value for m in at.markdown))
+    assert texto.count(app.RECADO_ANIVERSARIO) == 1
+
+
+def test_surpresa_em_vem_do_ambiente():
+    cfg = app.Settings.from_env({"SURPRESA_EM": "2030-02-03"})
+    assert cfg.surpresa_em == date(2030, 2, 3)
+
+
+def test_surpresa_em_invalida_cai_no_padrao():
+    cfg = app.Settings.from_env({"SURPRESA_EM": "quando der"})
+    assert cfg.surpresa_em == date(2026, 11, 14)
+
+
+def test_revelacao_registra_um_evento_por_sessao(app_factory, tmp_path):
+    at = app_factory(
+        SURPRESA_EM="2020-01-01", CONSENT_REQUIRED="0", GEO_MODE="off"
+    )
+    at.run()
+    navegar(at, "programacao")
+    at.run()
+
+    con = sqlite3.connect(tmp_path / "app.db")
+    try:
+        total = con.execute(
+            "SELECT count(*) FROM events WHERE kind = 'surpresa'"
+        ).fetchone()[0]
+    finally:
+        con.close()
+    assert total == 1
+
+
+def test_antes_da_data_nada_e_registrado(app_factory, tmp_path):
+    at = app_factory(
+        SURPRESA_EM="2099-01-01", CONSENT_REQUIRED="0", GEO_MODE="off"
+    )
+    at.run()
+    navegar(at, "programacao")
+
+    con = sqlite3.connect(tmp_path / "app.db")
+    try:
+        total = con.execute(
+            "SELECT count(*) FROM events WHERE kind = 'surpresa'"
+        ).fetchone()[0]
+    finally:
+        con.close()
+    assert total == 0

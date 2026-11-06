@@ -41,8 +41,8 @@ A tela **Programação** tem o botão **“Adicionar à minha agenda (.ics)”**
 arquivo é gerado em memória (`build_ics()`), sem serviço externo, e traz:
 
 - os **34 momentos** oficiais, com fuso `America/Sao_Paulo`, local e categoria;
-- um evento extra em **14/11 às 09:00** com o recado guardado e **alarme 5
-  minutos antes** (`VALARM`);
+- um evento surpresa em **14/11 às 09:00**, com **alarme 5 minutos antes**
+  (`VALARM`); o texto do recado só aparece no app a partir dessa data;
 - cabeçalho `X-WR-CALNAME` para o calendário aparecer com nome no app de agenda.
 
 O mesmo arquivo fica versionado em
@@ -115,6 +115,7 @@ ANALYTICS_PIXEL_URL = "https://seu-endpoint/pixel.gif"
 | `SHEET_CSV_URL` | vazio | CSV ao vivo da aba "Alocações" (fallback: snapshot) |
 | `MAX_PHOTO_MB` | `8` | limite de upload na meditação |
 | `TZ_NAME` | `America/Sao_Paulo` | fuso das telas e do "próxima tarefa" |
+| `SURPRESA_EM` | `2026-11-14` | data de liberação do conteúdo especial do app |
 
 Modelo completo em [`.env.example`](.env.example).
 
@@ -163,7 +164,7 @@ tela **Privacidade** do app.
 ## 🧪 Testes e qualidade
 
 ```bash
-make test    # 224 testes
+make test    # 233 testes
 make cov     # cobertura (89% do app.py)
 make lint    # ruff
 make check   # o que o CI roda
@@ -199,7 +200,7 @@ docs/PRIVACIDADE.md        política de dados (LGPD)
 docs/RUNBOOK.md            deploy, operação e incidentes
 docs/programacao-final-sbc-2026.ics  programação pronta para importar
 scripts/gerar_ics.py       regera o .ics publicado (make ics)
-tests/                     224 testes
+tests/                     233 testes
 ```
 
 ---

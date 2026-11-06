@@ -34,6 +34,7 @@ ENV_PREFIXES = (
     "SHEET_",
     "MAX_",
     "TZ_",
+    "SURPRESA_",
 )
 
 

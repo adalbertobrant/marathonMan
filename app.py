@@ -369,6 +369,14 @@ def _env_int(value: str | None, default: int) -> int:
         return default
 
 
+def _env_date(value: str | None, default: date) -> date:
+    """Data no formato ISO (AAAA-MM-DD); qualquer outra coisa cai no padrão."""
+    try:
+        return date.fromisoformat(str(value).strip())
+    except (TypeError, ValueError):
+        return default
+
+
 @dataclass(frozen=True)
 class Settings:
     """Configuração da aplicação, montada a partir do ambiente."""
@@ -389,6 +397,7 @@ class Settings:
     sheet_csv_url: str = ""
     max_photo_mb: int = 8
     tz_name: str = "America/Sao_Paulo"
+    surpresa_em: date = date(2026, 11, 14)
 
     @classmethod
     def from_env(cls, env: Mapping[str, str] | None = None) -> "Settings":
@@ -427,6 +436,7 @@ class Settings:
             sheet_csv_url=s("SHEET_CSV_URL", ""),
             max_photo_mb=_env_int(e.get("MAX_PHOTO_MB"), 8),
             tz_name=s("TZ_NAME", "America/Sao_Paulo"),
+            surpresa_em=_env_date(e.get("SURPRESA_EM"), date(2026, 11, 14)),
         )
 
 
@@ -1258,6 +1268,7 @@ ALLOWED_KINDS = {
     "pronto",
     "blocked",
     "admin",
+    "surpresa",
 }
 
 
@@ -2076,6 +2087,35 @@ def build_ics(momento: datetime | None = None) -> str:
     return "\r\n".join(linhas) + "\r\n"
 
 
+def surpresa_aniversario(
+    cfg: Settings, store: AnalyticsStore, screen: str = "programacao"
+) -> None:
+    """Mostra o recado guardado só a partir da data configurada.
+
+    Antes de `SURPRESA_EM` (padrão 14/11) não existe nenhuma menção na tela:
+    o recado é uma surpresa. No dia, ele aparece e o pixel registra a
+    revelação uma única vez por sessão (só com consentimento).
+    """
+    if now_local(cfg).date() < cfg.surpresa_em:
+        return
+
+    st.markdown("---")
+    st.markdown("### 🎂 Tinha um recado guardado para hoje")
+    note(esc(RECADO_ANIVERSARIO))
+    st.markdown(
+        f"Se essa mensagem te encontrou bem, deixa um 💚 no "
+        f"**[dev.to]({LINKS_AUTOR['devto']})** e uma ⭐ no "
+        f"**[marathonMan]({LINKS_AUTOR['repo']})**. É o presente. 🍉"
+    )
+
+    if st.session_state.get("_surpresa_revelada"):
+        return
+    st.session_state["_surpresa_revelada"] = True
+    if analytics_on(cfg):
+        render_pixel(cfg, st.session_state.sid, "surpresa")
+        track(cfg, store, "surpresa", screen=screen)
+
+
 def page_programacao(cfg: Settings) -> None:
     hero(
         "Programação Oficial",
@@ -2103,7 +2143,7 @@ def page_programacao(cfg: Settings) -> None:
         width="stretch",
         key="download_ics",
         help="Abre no Google Agenda, Apple Calendário ou Outlook. "
-        "Inclui os 34 momentos e o recado guardado para 14/11.",
+        "Inclui os 34 momentos oficiais da Final SBC 2026.",
     )
     st.caption(
         "No celular, toque no arquivo e escolha o calendário. "
@@ -2167,11 +2207,6 @@ def page_programacao(cfg: Settings) -> None:
         f"**[dev.to]({LINKS_AUTOR['devto']})** — e se esse app te ajudou, "
         f"manda uma ⭐ no **[marathonMan]({LINKS_AUTOR['repo']})** "
         "ou uns 💚 por lá. Vale como obrigado. 🍉"
-    )
-    note(f"🎂 <b>Recado guardado para 14/11:</b> {esc(RECADO_ANIVERSARIO)}")
-    st.caption(
-        "O mesmo recado vai dentro do arquivo .ics, com alarme no dia 14/11 às "
-        f"{ANIVERSARIO_HORA:02d}:00 (horário de Brasília)."
     )
 
 
@@ -3041,6 +3076,9 @@ def main() -> None:
             st.code(f"{type(exc).__name__}: {exc}")
         if st.button("🍉 Voltar para o início", key="err_home"):
             go("inicio")
+
+    if nav in {"inicio", "programacao"}:
+        surpresa_aniversario(cfg, store, screen=nav)
 
     st.markdown("---")
     st.caption(
