@@ -115,7 +115,7 @@ autenticadas continuam válidas até o fim da sessão do navegador.
 ## 7. Testes antes de publicar
 
 ```bash
-make check      # ruff + 183 testes
+make check      # ruff + 207 testes
 make cov        # cobertura (falha abaixo de 80%)
 ```
 

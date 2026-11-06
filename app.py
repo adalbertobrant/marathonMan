@@ -39,7 +39,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Callable, Iterable, Mapping, Sequence
+from typing import Any, Callable, Iterable, Mapping, NamedTuple, Sequence
 from urllib.parse import urlencode
 
 import streamlit as st
@@ -54,6 +54,7 @@ APP_TAGLINE = "a organização mais hidratada do Brasil"
 
 SCREENS: dict[str, tuple[str, str]] = {
     "inicio": ("🍉", "Início"),
+    "programacao": ("📅", "Programação"),
     "quem": ("🙋", "Quem é você?"),
     "resumo": ("📋", "Meu resumo"),
     "tarefas": ("🗓️", "Tarefas de todos"),
@@ -62,7 +63,18 @@ SCREENS: dict[str, tuple[str, str]] = {
     "pronto": ("✅", "Tô pronto!"),
 }
 
-CANONICAL_STEPS: tuple[str, ...] = tuple(SCREENS)
+# O caminho "correto" é o do onboarding (se identificar, ver o resumo, respirar).
+# Programação, Privacidade e Organização são telas de consulta: entram no log e
+# no stepper quando abertas, mas não contam como etapa obrigatória do funil.
+CANONICAL_STEPS: tuple[str, ...] = (
+    "inicio",
+    "quem",
+    "resumo",
+    "tarefas",
+    "destaques",
+    "meditacao",
+    "pronto",
+)
 
 EVENT_DAYS: tuple[date, ...] = (
     date(2026, 11, 5),
@@ -71,6 +83,257 @@ EVENT_DAYS: tuple[date, ...] = (
 )
 
 MEDALS = ("🥇", "🥈", "🥉")
+
+# ---------------------------------------------------------------------------
+# Programação oficial (fonte: organização da Final SBC 2026 / FACOM-UFU)
+# ---------------------------------------------------------------------------
+
+
+class ItemProgramacao(NamedTuple):
+    hora: str
+    titulo: str
+    tipo: str
+    local: str
+
+
+class DiaProgramacao(NamedTuple):
+    data: date
+    dia: str
+    titulo: str
+    itens: tuple[ItemProgramacao, ...]
+
+
+PROGRAMACAO: tuple[DiaProgramacao, ...] = (
+    DiaProgramacao(
+        date(2026, 11, 5),
+        "Quinta-feira",
+        "Recepção, Credenciamento e Abertura Social",
+        (
+            ItemProgramacao(
+                "09:00 – 12:00",
+                "Recepção dos participantes, credenciamento, fotos dos times e entrega de materiais",
+                "Credenciamento",
+                "Hotel Porto Minas",
+            ),
+            ItemProgramacao(
+                "09:00 – 18:00",
+                "Check-in dos times e coaches no hotel",
+                "Logística",
+                "Hotel Porto Minas",
+            ),
+            ItemProgramacao(
+                "14:00 – 17:00",
+                "Atividade BTG – Patrocinador Premium",
+                "Destaque",
+                "Hotel Porto Minas",
+            ),
+            ItemProgramacao(
+                "18:00 – 19:00",
+                "Encontro das meninas da Maratona de Programação",
+                "Integração",
+                "Hotel Porto Minas",
+            ),
+            ItemProgramacao(
+                "18:00 – 22:00",
+                "Encontro de integração com patrocinadores",
+                "Networking",
+                "Hotel Porto Minas",
+            ),
+            ItemProgramacao(
+                "19:00 – 22:00",
+                "Jantar de boas-vindas",
+                "Social",
+                "Hotel Porto Minas",
+            ),
+            ItemProgramacao(
+                "21:00 – 22:00",
+                "Reunião do Comitê Diretor",
+                "Oficial",
+                "Hotel Porto Minas",
+            ),
+        ),
+    ),
+    DiaProgramacao(
+        date(2026, 11, 6),
+        "Sexta-feira",
+        "Aquecimento (Warm-up), Fotos Oficiais e Integração",
+        (
+            ItemProgramacao(
+                "06:00 – 08:00", "Café da manhã", "Alimentação",
+                "Hotel Porto Minas – Restaurante",
+            ),
+            ItemProgramacao(
+                "07:00 – 08:30",
+                "Deslocamento (Hotel Porto Minas para Arena Sabiazinho)",
+                "Transporte",
+                "Hotel Porto Minas – Rua lateral",
+            ),
+            ItemProgramacao(
+                "07:30 – 09:00",
+                "Credenciamento tardio dos times e entrega de materiais",
+                "Credenciamento",
+                "Arena Sabiazinho",
+            ),
+            ItemProgramacao(
+                "09:00 – 11:30",
+                "Recepção, abertura e palestras dos patrocinadores e apoiadores",
+                "Abertura Oficial",
+                "Arena Sabiazinho",
+            ),
+            ItemProgramacao(
+                "11:30 – 13:00", "Almoço", "Alimentação",
+                "Estádio Parque do Sabiá – Portão 06",
+            ),
+            ItemProgramacao(
+                "12:30 – 13:30",
+                "Encontro de integração com patrocinadores",
+                "Networking",
+                "Arena Sabiazinho",
+            ),
+            ItemProgramacao(
+                "13:30 – 14:00",
+                "Chegada dos times e posicionamento para aquecimento (Warm-up)",
+                "Preparação",
+                "Arena Sabiazinho",
+            ),
+            ItemProgramacao(
+                "14:00 – 15:00",
+                "Sessão aberta de treino - Aquecimento (Warm-up)",
+                "Warm-up",
+                "Arena Sabiazinho",
+            ),
+            ItemProgramacao(
+                "15:30",
+                "1ª Foto Oficial do evento com as camisetas oficiais e os times – "
+                "Arquibancada Amarela Sabiazinho",
+                "Foto Oficial",
+                "Arena Sabiazinho",
+            ),
+            ItemProgramacao(
+                "15:30 – 16:00",
+                "Deslocamento para o Parque do Sabiá para atividades integradoras",
+                "Transporte",
+                "Parque do Sabiá",
+            ),
+            ItemProgramacao(
+                "16:00 – 16:30",
+                "2ª Foto Oficial do evento com as camisetas oficiais e os times – "
+                "Gramado do Parque do Sabiá",
+                "Foto Oficial",
+                "Parque do Sabiá",
+            ),
+            ItemProgramacao(
+                "16:30 – 19:00",
+                "Atividades integradoras",
+                "Integração & Lazer",
+                "Parque do Sabiá",
+            ),
+            ItemProgramacao(
+                "19:00 – 19:30",
+                "Deslocamento para Arena Sabiazinho",
+                "Transporte",
+                "Arena Sabiazinho",
+            ),
+            ItemProgramacao(
+                "19:30 – 22:00",
+                "Jantar e atividades com patrocinadores",
+                "Social & Networking",
+                "Arena Sabiazinho",
+            ),
+            ItemProgramacao(
+                "22:00 – 23:30",
+                "Deslocamento (Arena Sabiazinho para Hotel Porto Minas)",
+                "Transporte",
+                "Estádio Parque do Sabiá – Portão 06",
+            ),
+        ),
+    ),
+    DiaProgramacao(
+        date(2026, 11, 7),
+        "Sábado",
+        "A Grande Final Brasileira e Cerimônia de Premiação",
+        (
+            ItemProgramacao(
+                "08:00 – 10:00", "Café da manhã", "Alimentação",
+                "Hotel Porto Minas – Restaurante",
+            ),
+            ItemProgramacao(
+                "09:00 – 10:30",
+                "Deslocamento (Hotel Porto Minas para Arena Sabiazinho)",
+                "Transporte",
+                "Hotel Porto Minas – Rua lateral",
+            ),
+            ItemProgramacao(
+                "09:30 – 11:30",
+                "Integração entre os times e troca de figurinhas do álbum",
+                "Integração",
+                "Arena Sabiazinho",
+            ),
+            ItemProgramacao(
+                "10:00 – 11:00",
+                "Sessão perguntas/respostas dos coaches com juízes/sistemas",
+                "Sessão Técnica",
+                "Arena Sabiazinho",
+            ),
+            ItemProgramacao(
+                "11:30 – 13:30", "Almoço", "Alimentação",
+                "Estádio Parque do Sabiá – Portão 06",
+            ),
+            ItemProgramacao(
+                "13:30 – 14:00",
+                "Chegada dos times para competição principal",
+                "Concentração",
+                "Arena Sabiazinho",
+            ),
+            ItemProgramacao(
+                "14:00 – 19:00",
+                "Final da Maratona SBC de Programação 2026",
+                "Grande Final",
+                "Arena Sabiazinho",
+            ),
+            ItemProgramacao(
+                "19:00 – 19:30",
+                "Deslocamento para encerramento e premiação",
+                "Transporte",
+                "Estádio Parque do Sabiá – Portão 06",
+            ),
+            ItemProgramacao(
+                "19:30 – 23:30",
+                "Jantar de encerramento e cerimônia de premiação",
+                "Premiação Oficial",
+                "Estádio Parque do Sabiá – Portão 06",
+            ),
+            ItemProgramacao(
+                "23:30 – 01:00",
+                "Deslocamento (Arena Sabiazinho para Hotel Porto Minas)",
+                "Transporte",
+                "Estádio Parque do Sabiá – Portão 06",
+            ),
+        ),
+    ),
+    DiaProgramacao(
+        date(2026, 11, 8),
+        "Domingo",
+        "Check-out e Despedida das Delegações",
+        (
+            ItemProgramacao(
+                "06:00 – 09:00", "Café da manhã", "Alimentação",
+                "Hotel Porto Minas – Restaurante",
+            ),
+            ItemProgramacao(
+                "Até as 12:00",
+                "Check-out dos times e retorno",
+                "Retorno & Encerramento",
+                "Hotel Porto Minas – Recepção",
+            ),
+        ),
+    ),
+)
+
+PROGRAMACAO_AVISO = (
+    "Os horários e locais podem sofrer pequenos ajustes pela organização. "
+    "Em caso de dúvida, vale o quadro oficial no credenciamento."
+)
 
 # ---------------------------------------------------------------------------
 # Configuração (tudo por variável de ambiente; nada sensível no código)
@@ -1335,6 +1598,26 @@ CSS = """
     55%      { transform: scale(1.06); }
   }
   .mela-small { color: #6b7a72; font-size: .85rem; }
+  .mela-prog {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: #fff; border: 1px solid #f3e9e0; border-radius: 16px;
+    padding: 12px 16px; margin-bottom: 8px;
+  }
+  .mela-prog .hora {
+    min-width: 122px; font-weight: 700; color: var(--mela-deep);
+    font-variant-numeric: tabular-nums; font-size: .95rem;
+  }
+  .mela-prog .corpo { flex: 1; }
+  .mela-prog .corpo b { color: var(--mela-ink); font-size: .98rem; }
+  .mela-prog .tipo { white-space: nowrap; }
+  .mela-prog.agora {
+    border-color: #ffc9d4; background: #fff5f7;
+    box-shadow: 0 6px 18px rgba(255, 77, 109, .12);
+  }
+  @media (max-width: 640px) {
+    .mela-prog { flex-direction: column; gap: 4px; }
+    .mela-prog .hora { min-width: 0; }
+  }
   footer, #MainMenu { visibility: hidden; }
 </style>
 """
@@ -1528,6 +1811,13 @@ def page_inicio(data: Mapping[str, Any]) -> None:
         f"{sum(1 for m in monitores if m['reuniao'])}/{len(monitores)}",
     )
 
+    if st.button(
+        "📅 Programação oficial · 05 a 08/11 · Uberlândia-MG",
+        key="home_prog",
+        width="stretch",
+    ):
+        go("programacao")
+
     st.markdown("### ✨ Seu caminho em 3 toques")
     c1, c2, c3 = st.columns(3)
     with c1:
@@ -1575,6 +1865,126 @@ def page_inicio(data: Mapping[str, Any]) -> None:
         "Acesso liberado para redes no Brasil. Registro de navegação só com o seu ok "
         "— veja **Privacidade**."
     )
+
+
+def _prog_intervalo(hora: str) -> tuple[int, int] | None:
+    """'09:00 – 12:00' -> (540, 720).
+
+    Aceita hora única ('15:30' vira uma janela de 1h) e virada de meia-noite
+    ('23:30 – 01:00'). Devolve None quando não há horário legível.
+    """
+    achados = re.findall(r"(\d{1,2})[:hH](\d{2})", str(hora or ""))
+    if not achados:
+        return None
+    inicio = int(achados[0][0]) * 60 + int(achados[0][1])
+    if len(achados) == 1:
+        return inicio, inicio + 60
+    fim = int(achados[1][0]) * 60 + int(achados[1][1])
+    if fim <= inicio:
+        fim += 24 * 60
+    return inicio, fim
+
+
+def programacao_do_dia(data_alvo: date) -> DiaProgramacao | None:
+    return next((dia for dia in PROGRAMACAO if dia.data == data_alvo), None)
+
+
+def item_acontecendo(dia: DiaProgramacao, momento: datetime) -> int | None:
+    """Índice do item em andamento naquele dia (None se não houver)."""
+    if momento.date() != dia.data:
+        return None
+    agora = momento.hour * 60 + momento.minute
+    for indice, item in enumerate(dia.itens):
+        faixa = _prog_intervalo(item.hora)
+        if faixa and faixa[0] <= agora < faixa[1]:
+            return indice
+    return None
+
+
+def _prog_estilo(tipo: str) -> str:
+    if tipo in {"Grande Final", "Premiação Oficial", "Abertura Oficial", "Oficial", "Destaque"}:
+        return "gold"
+    if tipo in {
+        "Alimentação",
+        "Integração",
+        "Integração & Lazer",
+        "Networking",
+        "Social",
+        "Social & Networking",
+        "Retorno & Encerramento",
+    }:
+        return "green"
+    return ""
+
+
+def page_programacao(cfg: Settings) -> None:
+    hero(
+        "Programação Oficial",
+        "Final Maratona SBC de Programação (FACOM/UFU) 2026 · "
+        "05 a 08 de novembro de 2026 · Uberlândia - MG",
+        "📅",
+    )
+
+    agora = now_local(cfg)
+    hoje = programacao_do_dia(agora.date())
+
+    cols = st.columns(3)
+    cols[0].metric("🗓️ dias", len(PROGRAMACAO))
+    cols[1].metric("📍 momentos", sum(len(dia.itens) for dia in PROGRAMACAO))
+    cols[2].metric(
+        "🏟️ locais",
+        len({item.local.split(" – ")[0] for dia in PROGRAMACAO for item in dia.itens}),
+    )
+
+    rotulos = [f"{dia.data:%d/%m} · {dia.dia}" for dia in PROGRAMACAO]
+    indice_padrao = PROGRAMACAO.index(hoje) if hoje in PROGRAMACAO else 0
+    escolhido = st.radio(
+        "Dia da programação",
+        rotulos,
+        index=indice_padrao,
+        horizontal=True,
+        label_visibility="collapsed",
+        key="prog_dia",
+    )
+    dia = PROGRAMACAO[rotulos.index(escolhido)]
+
+    st.markdown(f"### {dia.data:%d/%m} · {dia.titulo}")
+    if hoje and hoje.data == dia.data:
+        st.caption("📍 Este é o dia de hoje.")
+
+    em_curso = item_acontecendo(dia, agora)
+    if em_curso is not None:
+        note(
+            f"🔴 <b>Acontecendo agora:</b> {esc(dia.itens[em_curso].titulo)} "
+            f"· {esc(dia.itens[em_curso].local)}"
+        )
+
+    for indice, item in enumerate(dia.itens):
+        classes = "mela-prog agora" if indice == em_curso else "mela-prog"
+        etiqueta = chip(item.tipo, _prog_estilo(item.tipo))
+        if indice == em_curso:
+            etiqueta += chip("agora", "gold")
+        st.markdown(
+            f'<div class="{classes}">'
+            f'<div class="hora">{esc(item.hora)}</div>'
+            f'<div class="corpo"><b>{esc(item.titulo)}</b>'
+            f'<div class="mela-small">📍 {esc(item.local)}</div></div>'
+            f'<div class="tipo">{etiqueta}</div>'
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+
+    st.markdown("")
+    note(f"🕒 <b>Aviso da organização:</b> {esc(PROGRAMACAO_AVISO)}")
+
+    st.markdown("")
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("📋 Ver a minha escala", width="stretch"):
+            go("resumo")
+    with col2:
+        if st.button("🗓️ Tarefas de todos", width="stretch"):
+            go("tarefas")
 
 
 def page_quem(cfg: Settings, data: Mapping[str, Any], store: AnalyticsStore, country: str) -> None:
@@ -2369,6 +2779,8 @@ def render_page(
 ) -> None:
     if nav == "inicio":
         page_inicio(data)
+    elif nav == "programacao":
+        page_programacao(cfg)
     elif nav == "quem":
         page_quem(cfg, data, store, country)
     elif nav == "resumo":
@@ -2426,7 +2838,7 @@ def main() -> None:
     data = load_dataset_cached(cfg.sheet_csv_url)
     nav = sidebar(cfg)
 
-    if nav in SCREENS:
+    if nav in CANONICAL_STEPS:
         stepper(st.session_state.views, nav)
     enter_screen(cfg, store, nav, country)
 

@@ -9,8 +9,8 @@ Feito em **Streamlit**, em **um único arquivo** (`app.py`), com testes
 automatizados, dados reais da planilha oficial e privacidade por padrão (LGPD).
 
 ```
-🍉 Início  ·  🙋 Quem é você?  ·  📋 Meu resumo  ·  🗓️ Tarefas de todos
-🏆 Destaques  ·  🧘 Meditação  ·  🔐 Privacidade  ·  🛠️ Organização
+🍉 Início  ·  📅 Programação  ·  🙋 Quem é você?  ·  📋 Meu resumo
+🗓️ Tarefas de todos  ·  🏆 Destaques  ·  🧘 Meditação  ·  🔐 Privacidade  ·  🛠️ Organização
 ```
 
 ---
@@ -20,6 +20,7 @@ automatizados, dados reais da planilha oficial e privacidade por padrão (LGPD).
 | Tela | O que resolve |
 | --- | --- |
 | **Início** | boas-vindas, números da maratona e atalhos para o caminho certo |
+| **Programação** | grade oficial da Final SBC 2026 (05 a 08/11): os 4 dias, 34 momentos, locais, filtro por dia e destaque do que está acontecendo agora |
 | **Quem é você?** | busca tolerante a acento/caixa para a pessoa se identificar |
 | **Meu resumo** | horas, funções, lista, reunião, próxima tarefa e a escala dos 3 dias com checkboxes |
 | **Tarefas de todos** | mural completo com filtro por dia/busca, CSV para download e "só as minhas" |
@@ -141,7 +142,7 @@ tela **Privacidade** do app.
 ## 🧪 Testes e qualidade
 
 ```bash
-make test    # 183 testes
+make test    # 207 testes
 make cov     # cobertura (88% do app.py)
 make lint    # ruff
 make check   # o que o CI roda
@@ -175,7 +176,7 @@ docs/BRIEFING.md           pedido original, guardado como referência
 docs/BACKLOG.md            épicos, histórias, critérios de aceite, sprints
 docs/PRIVACIDADE.md        política de dados (LGPD)
 docs/RUNBOOK.md            deploy, operação e incidentes
-tests/                     183 testes
+tests/                     207 testes
 ```
 
 ---

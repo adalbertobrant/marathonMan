@@ -10,7 +10,16 @@ from conftest import botao, navegar
 
 import app
 
-PAGINAS = ["inicio", "quem", "resumo", "tarefas", "destaques", "meditacao", "privacidade"]
+PAGINAS = [
+    "inicio",
+    "programacao",
+    "quem",
+    "resumo",
+    "tarefas",
+    "destaques",
+    "meditacao",
+    "privacidade",
+]
 
 
 def eventos(db_path) -> list[dict]:
