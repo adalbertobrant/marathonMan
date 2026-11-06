@@ -1,0 +1,449 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Maratona de Melancias//Final SBC 2026//PT-BR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Final SBC 2026 · Maratona de Melancias
+X-WR-TIMEZONE:America/Sao_Paulo
+BEGIN:VTIMEZONE
+TZID:America/Sao_Paulo
+X-LIC-LOCATION:America/Sao_Paulo
+BEGIN:STANDARD
+DTSTART:19700101T000000
+TZOFFSETFROM:-0300
+TZOFFSETTO:-0300
+TZNAME:-03
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:sbc2026-20261105-00@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261105T090000
+DTEND;TZID=America/Sao_Paulo:20261105T120000
+SUMMARY:Recepção dos participantes\, credenciamento\, fotos dos times e 
+ entrega de materiais
+LOCATION:Hotel Porto Minas
+DESCRIPTION:Credenciamento · Programação oficial da Final SBC 2026
+CATEGORIES:Credenciamento
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261105-01@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261105T090000
+DTEND;TZID=America/Sao_Paulo:20261105T180000
+SUMMARY:Check-in dos times e coaches no hotel
+LOCATION:Hotel Porto Minas
+DESCRIPTION:Logística · Programação oficial da Final SBC 2026
+CATEGORIES:Logística
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261105-02@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261105T140000
+DTEND;TZID=America/Sao_Paulo:20261105T170000
+SUMMARY:Atividade BTG – Patrocinador Premium
+LOCATION:Hotel Porto Minas
+DESCRIPTION:Destaque · Programação oficial da Final SBC 2026
+CATEGORIES:Destaque
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261105-03@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261105T180000
+DTEND;TZID=America/Sao_Paulo:20261105T190000
+SUMMARY:Encontro das meninas da Maratona de Programação
+LOCATION:Hotel Porto Minas
+DESCRIPTION:Integração · Programação oficial da Final SBC 2026
+CATEGORIES:Integração
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261105-04@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261105T180000
+DTEND;TZID=America/Sao_Paulo:20261105T220000
+SUMMARY:Encontro de integração com patrocinadores
+LOCATION:Hotel Porto Minas
+DESCRIPTION:Networking · Programação oficial da Final SBC 2026
+CATEGORIES:Networking
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261105-05@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261105T190000
+DTEND;TZID=America/Sao_Paulo:20261105T220000
+SUMMARY:Jantar de boas-vindas
+LOCATION:Hotel Porto Minas
+DESCRIPTION:Social · Programação oficial da Final SBC 2026
+CATEGORIES:Social
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261105-06@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261105T210000
+DTEND;TZID=America/Sao_Paulo:20261105T220000
+SUMMARY:Reunião do Comitê Diretor
+LOCATION:Hotel Porto Minas
+DESCRIPTION:Oficial · Programação oficial da Final SBC 2026
+CATEGORIES:Oficial
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261106-00@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261106T060000
+DTEND;TZID=America/Sao_Paulo:20261106T080000
+SUMMARY:Café da manhã
+LOCATION:Hotel Porto Minas – Restaurante
+DESCRIPTION:Alimentação · Programação oficial da Final SBC 2026
+CATEGORIES:Alimentação
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261106-01@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261106T070000
+DTEND;TZID=America/Sao_Paulo:20261106T083000
+SUMMARY:Deslocamento (Hotel Porto Minas para Arena Sabiazinho)
+LOCATION:Hotel Porto Minas – Rua lateral
+DESCRIPTION:Transporte · Programação oficial da Final SBC 2026
+CATEGORIES:Transporte
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261106-02@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261106T073000
+DTEND;TZID=America/Sao_Paulo:20261106T090000
+SUMMARY:Credenciamento tardio dos times e entrega de materiais
+LOCATION:Arena Sabiazinho
+DESCRIPTION:Credenciamento · Programação oficial da Final SBC 2026
+CATEGORIES:Credenciamento
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261106-03@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261106T090000
+DTEND;TZID=America/Sao_Paulo:20261106T113000
+SUMMARY:Recepção\, abertura e palestras dos patrocinadores e apoiadores
+LOCATION:Arena Sabiazinho
+DESCRIPTION:Abertura Oficial · Programação oficial da Final SBC 2026
+CATEGORIES:Abertura Oficial
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261106-04@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261106T113000
+DTEND;TZID=America/Sao_Paulo:20261106T130000
+SUMMARY:Almoço
+LOCATION:Estádio Parque do Sabiá – Portão 06
+DESCRIPTION:Alimentação · Programação oficial da Final SBC 2026
+CATEGORIES:Alimentação
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261106-05@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261106T123000
+DTEND;TZID=America/Sao_Paulo:20261106T133000
+SUMMARY:Encontro de integração com patrocinadores
+LOCATION:Arena Sabiazinho
+DESCRIPTION:Networking · Programação oficial da Final SBC 2026
+CATEGORIES:Networking
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261106-06@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261106T133000
+DTEND;TZID=America/Sao_Paulo:20261106T140000
+SUMMARY:Chegada dos times e posicionamento para aquecimento (Warm-up)
+LOCATION:Arena Sabiazinho
+DESCRIPTION:Preparação · Programação oficial da Final SBC 2026
+CATEGORIES:Preparação
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261106-07@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261106T140000
+DTEND;TZID=America/Sao_Paulo:20261106T150000
+SUMMARY:Sessão aberta de treino - Aquecimento (Warm-up)
+LOCATION:Arena Sabiazinho
+DESCRIPTION:Warm-up · Programação oficial da Final SBC 2026
+CATEGORIES:Warm-up
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261106-08@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261106T153000
+DTEND;TZID=America/Sao_Paulo:20261106T163000
+SUMMARY:1ª Foto Oficial do evento com as camisetas oficiais e os times 
+ – Arquibancada Amarela Sabiazinho
+LOCATION:Arena Sabiazinho
+DESCRIPTION:Foto Oficial · Programação oficial da Final SBC 2026
+CATEGORIES:Foto Oficial
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261106-09@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261106T153000
+DTEND;TZID=America/Sao_Paulo:20261106T160000
+SUMMARY:Deslocamento para o Parque do Sabiá para atividades integradoras
+LOCATION:Parque do Sabiá
+DESCRIPTION:Transporte · Programação oficial da Final SBC 2026
+CATEGORIES:Transporte
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261106-10@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261106T160000
+DTEND;TZID=America/Sao_Paulo:20261106T163000
+SUMMARY:2ª Foto Oficial do evento com as camisetas oficiais e os times 
+ – Gramado do Parque do Sabiá
+LOCATION:Parque do Sabiá
+DESCRIPTION:Foto Oficial · Programação oficial da Final SBC 2026
+CATEGORIES:Foto Oficial
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261106-11@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261106T163000
+DTEND;TZID=America/Sao_Paulo:20261106T190000
+SUMMARY:Atividades integradoras
+LOCATION:Parque do Sabiá
+DESCRIPTION:Integração & Lazer · Programação oficial da Final SBC 202
+ 6
+CATEGORIES:Integração & Lazer
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261106-12@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261106T190000
+DTEND;TZID=America/Sao_Paulo:20261106T193000
+SUMMARY:Deslocamento para Arena Sabiazinho
+LOCATION:Arena Sabiazinho
+DESCRIPTION:Transporte · Programação oficial da Final SBC 2026
+CATEGORIES:Transporte
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261106-13@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261106T193000
+DTEND;TZID=America/Sao_Paulo:20261106T220000
+SUMMARY:Jantar e atividades com patrocinadores
+LOCATION:Arena Sabiazinho
+DESCRIPTION:Social & Networking · Programação oficial da Final SBC 2026
+CATEGORIES:Social & Networking
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261106-14@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261106T220000
+DTEND;TZID=America/Sao_Paulo:20261106T233000
+SUMMARY:Deslocamento (Arena Sabiazinho para Hotel Porto Minas)
+LOCATION:Estádio Parque do Sabiá – Portão 06
+DESCRIPTION:Transporte · Programação oficial da Final SBC 2026
+CATEGORIES:Transporte
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261107-00@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261107T080000
+DTEND;TZID=America/Sao_Paulo:20261107T100000
+SUMMARY:Café da manhã
+LOCATION:Hotel Porto Minas – Restaurante
+DESCRIPTION:Alimentação · Programação oficial da Final SBC 2026
+CATEGORIES:Alimentação
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261107-01@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261107T090000
+DTEND;TZID=America/Sao_Paulo:20261107T103000
+SUMMARY:Deslocamento (Hotel Porto Minas para Arena Sabiazinho)
+LOCATION:Hotel Porto Minas – Rua lateral
+DESCRIPTION:Transporte · Programação oficial da Final SBC 2026
+CATEGORIES:Transporte
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261107-02@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261107T093000
+DTEND;TZID=America/Sao_Paulo:20261107T113000
+SUMMARY:Integração entre os times e troca de figurinhas do álbum
+LOCATION:Arena Sabiazinho
+DESCRIPTION:Integração · Programação oficial da Final SBC 2026
+CATEGORIES:Integração
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261107-03@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261107T100000
+DTEND;TZID=America/Sao_Paulo:20261107T110000
+SUMMARY:Sessão perguntas/respostas dos coaches com juízes/sistemas
+LOCATION:Arena Sabiazinho
+DESCRIPTION:Sessão Técnica · Programação oficial da Final SBC 2026
+CATEGORIES:Sessão Técnica
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261107-04@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261107T113000
+DTEND;TZID=America/Sao_Paulo:20261107T133000
+SUMMARY:Almoço
+LOCATION:Estádio Parque do Sabiá – Portão 06
+DESCRIPTION:Alimentação · Programação oficial da Final SBC 2026
+CATEGORIES:Alimentação
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261107-05@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261107T133000
+DTEND;TZID=America/Sao_Paulo:20261107T140000
+SUMMARY:Chegada dos times para competição principal
+LOCATION:Arena Sabiazinho
+DESCRIPTION:Concentração · Programação oficial da Final SBC 2026
+CATEGORIES:Concentração
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261107-06@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261107T140000
+DTEND;TZID=America/Sao_Paulo:20261107T190000
+SUMMARY:Final da Maratona SBC de Programação 2026
+LOCATION:Arena Sabiazinho
+DESCRIPTION:Grande Final · Programação oficial da Final SBC 2026
+CATEGORIES:Grande Final
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261107-07@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261107T190000
+DTEND;TZID=America/Sao_Paulo:20261107T193000
+SUMMARY:Deslocamento para encerramento e premiação
+LOCATION:Estádio Parque do Sabiá – Portão 06
+DESCRIPTION:Transporte · Programação oficial da Final SBC 2026
+CATEGORIES:Transporte
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261107-08@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261107T193000
+DTEND;TZID=America/Sao_Paulo:20261107T233000
+SUMMARY:Jantar de encerramento e cerimônia de premiação
+LOCATION:Estádio Parque do Sabiá – Portão 06
+DESCRIPTION:Premiação Oficial · Programação oficial da Final SBC 2026
+CATEGORIES:Premiação Oficial
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261107-09@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261107T233000
+DTEND;TZID=America/Sao_Paulo:20261108T010000
+SUMMARY:Deslocamento (Arena Sabiazinho para Hotel Porto Minas)
+LOCATION:Estádio Parque do Sabiá – Portão 06
+DESCRIPTION:Transporte · Programação oficial da Final SBC 2026
+CATEGORIES:Transporte
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261108-00@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261108T060000
+DTEND;TZID=America/Sao_Paulo:20261108T090000
+SUMMARY:Café da manhã
+LOCATION:Hotel Porto Minas – Restaurante
+DESCRIPTION:Alimentação · Programação oficial da Final SBC 2026
+CATEGORIES:Alimentação
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:sbc2026-20261108-01@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
+SUMMARY:Check-out dos times e retorno
+LOCATION:Hotel Porto Minas – Recepção
+DESCRIPTION:Retorno & Encerramento · Programação oficial da Final SBC 2
+ 026
+CATEGORIES:Retorno & Encerramento
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:aniversario-adalberto-20261114@maratonademelancias
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Sao_Paulo:20261114T090000
+DTEND;TZID=America/Sao_Paulo:20261114T093000
+SUMMARY:🎂 Aniversário do Adalberto · recado da Maratona de Melancias
+DESCRIPTION:Obrigado por participarem aqui desse grande experimento que é
+  viver\, como essa msg foi escrita no passado\, se ainda aqui \, favor env
+ iar um coração \,um unicórnio e 3 estrelas no dev.to/adalbertobrant ou 
+ então dar uma estrela no repositório marathonman -> https://github.com/a
+ dalbertobrant/marathonMan
+URL:https://github.com/adalbertobrant/marathonMan
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:🎂 Recado da Maratona de Melancias
+TRIGGER:-PT5M
+END:VALARM
+END:VEVENT
+END:VCALENDAR

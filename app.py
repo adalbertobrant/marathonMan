@@ -335,6 +335,22 @@ PROGRAMACAO_AVISO = (
     "Em caso de dúvida, vale o quadro oficial no credenciamento."
 )
 
+# Recado guardado para o aniversário do Adalberto (14/11). Vai no app e no .ics.
+ANIVERSARIO = date(2026, 11, 14)
+ANIVERSARIO_HORA = 9  # 09:00 em America/Sao_Paulo
+RECADO_ANIVERSARIO = (
+    "Obrigado por participarem aqui desse grande experimento que é viver, "
+    "como essa msg foi escrita no passado, se ainda aqui , favor enviar um "
+    "coração ,um unicórnio e 3 estrelas no dev.to/adalbertobrant ou então dar "
+    "uma estrela no repositório marathonman -> "
+    "https://github.com/adalbertobrant/marathonMan"
+)
+LINKS_AUTOR = {
+    "github": "https://github.com/adalbertobrant",
+    "devto": "https://dev.to/adalbertobrant",
+    "repo": "https://github.com/adalbertobrant/marathonMan",
+}
+
 # ---------------------------------------------------------------------------
 # Configuração (tudo por variável de ambiente; nada sensível no código)
 # ---------------------------------------------------------------------------
@@ -1861,6 +1877,11 @@ def page_inicio(data: Mapping[str, Any]) -> None:
         "💚 <b>Cuidado é método:</b> ninguém aqui precisa dar conta de tudo. "
         "Se sua escala pesar, fala com o núcleo. A gente ajusta junto.",
     )
+    st.markdown(
+        f"💚 Gostou? Segue o **[GitHub]({LINKS_AUTOR['github']})** e o "
+        f"**[dev.to]({LINKS_AUTOR['devto']})** — e deixa uma ⭐ no "
+        f"**[marathonMan]({LINKS_AUTOR['repo']})** se o app ajudou."
+    )
     st.caption(
         "Acesso liberado para redes no Brasil. Registro de navegação só com o seu ok "
         "— veja **Privacidade**."
@@ -1917,6 +1938,144 @@ def _prog_estilo(tipo: str) -> str:
     return ""
 
 
+# ---------------------------------------------------------------------------
+# Programação em .ics (Google Agenda, Apple Calendário, Outlook…)
+# ---------------------------------------------------------------------------
+
+ICS_TZID = "America/Sao_Paulo"
+
+
+def _ics_escape(valor: Any) -> str:
+    """Escapa texto para o padrão iCalendar (RFC 5545, seção 3.3.11)."""
+    texto = str(valor or "")
+    texto = texto.replace("\\", "\\\\")
+    texto = texto.replace(";", "\\;").replace(",", "\\,")
+    return texto.replace("\r\n", "\n").replace("\r", "\n").replace("\n", "\\n")
+
+
+def _ics_fold(linha: str, limite: int = 74) -> str:
+    """Dobra a linha em até 74 octetos sem cortar caractere UTF-8 no meio."""
+    pedacos: list[str] = []
+    atual = ""
+    for caractere in linha:
+        if len((atual + caractere).encode("utf-8")) > limite:
+            pedacos.append(atual)
+            atual = caractere
+        else:
+            atual += caractere
+    pedacos.append(atual)
+    return "\r\n ".join(pedacos)
+
+
+def _ics_linha(nome: str, valor: str) -> str:
+    return _ics_fold(f"{nome}:{valor}")
+
+
+def _ics_hora(momento: datetime) -> str:
+    return f"{momento:%Y%m%dT%H%M%S}"
+
+
+def _ics_evento_programacao(
+    dia: DiaProgramacao, indice: int, item: ItemProgramacao, criado_em: str
+) -> list[str]:
+    linhas = [
+        "BEGIN:VEVENT",
+        f"UID:sbc2026-{dia.data:%Y%m%d}-{indice:02d}@maratonademelancias",
+        f"DTSTAMP:{criado_em}",
+    ]
+
+    faixa = _prog_intervalo(item.hora)
+    sem_horario_fechado = item.hora.strip().lower().startswith("até") or faixa is None
+    if sem_horario_fechado:
+        # "Até as 12:00" não é um bloco fechado: vira evento de dia inteiro.
+        linhas.append(f"DTSTART;VALUE=DATE:{dia.data:%Y%m%d}")
+        linhas.append(f"DTEND;VALUE=DATE:{dia.data + timedelta(days=1):%Y%m%d}")
+    else:
+        base = datetime.combine(dia.data, datetime.min.time())
+        linhas.append(
+            f"DTSTART;TZID={ICS_TZID}:{_ics_hora(base + timedelta(minutes=faixa[0]))}"
+        )
+        linhas.append(
+            f"DTEND;TZID={ICS_TZID}:{_ics_hora(base + timedelta(minutes=faixa[1]))}"
+        )
+
+    linhas.extend(
+        [
+            _ics_linha("SUMMARY", _ics_escape(item.titulo)),
+            _ics_linha("LOCATION", _ics_escape(item.local)),
+            _ics_linha(
+                "DESCRIPTION",
+                _ics_escape(f"{item.tipo} · Programação oficial da Final SBC 2026"),
+            ),
+            _ics_linha("CATEGORIES", _ics_escape(item.tipo)),
+            "STATUS:CONFIRMED",
+            "TRANSP:OPAQUE",
+            "END:VEVENT",
+        ]
+    )
+    return linhas
+
+
+def _ics_evento_aniversario(criado_em: str) -> list[str]:
+    inicio = datetime.combine(ANIVERSARIO, datetime.min.time()).replace(
+        hour=ANIVERSARIO_HORA
+    )
+    fim = inicio + timedelta(minutes=30)
+    return [
+        "BEGIN:VEVENT",
+        "UID:aniversario-adalberto-20261114@maratonademelancias",
+        f"DTSTAMP:{criado_em}",
+        f"DTSTART;TZID={ICS_TZID}:{_ics_hora(inicio)}",
+        f"DTEND;TZID={ICS_TZID}:{_ics_hora(fim)}",
+        _ics_linha(
+            "SUMMARY",
+            _ics_escape("🎂 Aniversário do Adalberto · recado da Maratona de Melancias"),
+        ),
+        _ics_linha("DESCRIPTION", _ics_escape(RECADO_ANIVERSARIO)),
+        _ics_linha("URL", LINKS_AUTOR["repo"]),
+        "BEGIN:VALARM",
+        "ACTION:DISPLAY",
+        _ics_linha("DESCRIPTION", _ics_escape("🎂 Recado da Maratona de Melancias")),
+        "TRIGGER:-PT5M",
+        "END:VALARM",
+        "END:VEVENT",
+    ]
+
+
+def build_ics(momento: datetime | None = None) -> str:
+    """Calendário completo: 34 momentos oficiais + o recado de 14/11."""
+    criado = (momento or datetime.now(timezone.utc)).astimezone(timezone.utc)
+    criado_em = f"{criado:%Y%m%dT%H%M%SZ}"
+
+    linhas = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Maratona de Melancias//Final SBC 2026//PT-BR",
+        "CALSCALE:GREGORIAN",
+        "METHOD:PUBLISH",
+        "X-WR-CALNAME:Final SBC 2026 · Maratona de Melancias",
+        f"X-WR-TIMEZONE:{ICS_TZID}",
+        "BEGIN:VTIMEZONE",
+        f"TZID:{ICS_TZID}",
+        f"X-LIC-LOCATION:{ICS_TZID}",
+        "BEGIN:STANDARD",
+        "DTSTART:19700101T000000",
+        "TZOFFSETFROM:-0300",
+        "TZOFFSETTO:-0300",
+        "TZNAME:-03",
+        "END:STANDARD",
+        "END:VTIMEZONE",
+    ]
+
+    for dia in PROGRAMACAO:
+        for indice, item in enumerate(dia.itens):
+            linhas.extend(_ics_evento_programacao(dia, indice, item, criado_em))
+
+    linhas.extend(_ics_evento_aniversario(criado_em))
+    linhas.append("END:VCALENDAR")
+    return "\r\n".join(linhas) + "\r\n"
+
+
 def page_programacao(cfg: Settings) -> None:
     hero(
         "Programação Oficial",
@@ -1934,6 +2093,21 @@ def page_programacao(cfg: Settings) -> None:
     cols[2].metric(
         "🏟️ locais",
         len({item.local.split(" – ")[0] for dia in PROGRAMACAO for item in dia.itens}),
+    )
+
+    st.download_button(
+        "📅 Adicionar à minha agenda (.ics)",
+        data=build_ics(),
+        file_name="final-sbc-2026-melancias.ics",
+        mime="text/calendar; charset=utf-8",
+        width="stretch",
+        key="download_ics",
+        help="Abre no Google Agenda, Apple Calendário ou Outlook. "
+        "Inclui os 34 momentos e o recado guardado para 14/11.",
+    )
+    st.caption(
+        "No celular, toque no arquivo e escolha o calendário. "
+        "No Google Agenda: **Configurações → Importar e exportar**."
     )
 
     rotulos = [f"{dia.data:%d/%m} · {dia.dia}" for dia in PROGRAMACAO]
@@ -1985,6 +2159,20 @@ def page_programacao(cfg: Settings) -> None:
     with col2:
         if st.button("🗓️ Tarefas de todos", width="stretch"):
             go("tarefas")
+
+    st.markdown("---")
+    st.markdown("### 💚 Curtiu? Deixa um like")
+    st.markdown(
+        f"Me segue no **[GitHub]({LINKS_AUTOR['github']})** e no "
+        f"**[dev.to]({LINKS_AUTOR['devto']})** — e se esse app te ajudou, "
+        f"manda uma ⭐ no **[marathonMan]({LINKS_AUTOR['repo']})** "
+        "ou uns 💚 por lá. Vale como obrigado. 🍉"
+    )
+    note(f"🎂 <b>Recado guardado para 14/11:</b> {esc(RECADO_ANIVERSARIO)}")
+    st.caption(
+        "O mesmo recado vai dentro do arquivo .ics, com alarme no dia 14/11 às "
+        f"{ANIVERSARIO_HORA:02d}:00 (horário de Brasília)."
+    )
 
 
 def page_quem(cfg: Settings, data: Mapping[str, Any], store: AnalyticsStore, country: str) -> None:

@@ -20,7 +20,7 @@ automatizados, dados reais da planilha oficial e privacidade por padrão (LGPD).
 | Tela | O que resolve |
 | --- | --- |
 | **Início** | boas-vindas, números da maratona e atalhos para o caminho certo |
-| **Programação** | grade oficial da Final SBC 2026 (05 a 08/11): os 4 dias, 34 momentos, locais, filtro por dia e destaque do que está acontecendo agora |
+| **Programação** | grade oficial da Final SBC 2026 (05 a 08/11): os 4 dias, 34 momentos, locais, filtro por dia, destaque do que está acontecendo agora e **download .ics** |
 | **Quem é você?** | busca tolerante a acento/caixa para a pessoa se identificar |
 | **Meu resumo** | horas, funções, lista, reunião, próxima tarefa e a escala dos 3 dias com checkboxes |
 | **Tarefas de todos** | mural completo com filtro por dia/busca, CSV para download e "só as minhas" |
@@ -32,6 +32,27 @@ automatizados, dados reais da planilha oficial e privacidade por padrão (LGPD).
 **Destaques em melancias**: as 52 pessoas aparecem com badges de lista, horas,
 funções e presença na reunião; as que mais somam horas ganham pódio e mensagem
 de parabéns.
+
+---
+
+## 📅 Programação no calendário (.ics)
+
+A tela **Programação** tem o botão **“Adicionar à minha agenda (.ics)”**. O
+arquivo é gerado em memória (`build_ics()`), sem serviço externo, e traz:
+
+- os **34 momentos** oficiais, com fuso `America/Sao_Paulo`, local e categoria;
+- um evento extra em **14/11 às 09:00** com o recado guardado e **alarme 5
+  minutos antes** (`VALARM`);
+- cabeçalho `X-WR-CALNAME` para o calendário aparecer com nome no app de agenda.
+
+O mesmo arquivo fica versionado em
+[`docs/programacao-final-sbc-2026.ics`](docs/programacao-final-sbc-2026.ics)
+para quem preferir baixar direto do repositório. Ele é reprodutível: rode
+`make ics` sempre que a programação mudar — existe teste comparando o arquivo
+publicado com o gerado (`test_arquivo_estatico_esta_sincronizado`).
+
+No celular, toque no arquivo e escolha o calendário. No Google Agenda pelo
+computador: **Configurações → Importar e exportar**.
 
 ---
 
@@ -142,8 +163,8 @@ tela **Privacidade** do app.
 ## 🧪 Testes e qualidade
 
 ```bash
-make test    # 207 testes
-make cov     # cobertura (88% do app.py)
+make test    # 224 testes
+make cov     # cobertura (89% do app.py)
 make lint    # ruff
 make check   # o que o CI roda
 ```
@@ -176,7 +197,9 @@ docs/BRIEFING.md           pedido original, guardado como referência
 docs/BACKLOG.md            épicos, histórias, critérios de aceite, sprints
 docs/PRIVACIDADE.md        política de dados (LGPD)
 docs/RUNBOOK.md            deploy, operação e incidentes
-tests/                     207 testes
+docs/programacao-final-sbc-2026.ics  programação pronta para importar
+scripts/gerar_ics.py       regera o .ics publicado (make ics)
+tests/                     224 testes
 ```
 
 ---

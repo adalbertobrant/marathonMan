@@ -133,7 +133,7 @@ Como melancia, quero horas, funções, lista e reunião juntas.
 - **Dado** disco sem permissão, **então** o log cai para memória e o app avisa.
 
 **H8.2 Suíte automatizada** · 5 pts · ✅
-- **Dado** `make check`, **então** lint + 207 testes passam.
+- **Dado** `make check`, **então** lint + 224 testes passam.
 - **Dado** qualquer página, **então** existe teste de integração que a renderiza.
 
 ---
@@ -162,9 +162,9 @@ Uma história só fecha quando:
 | S5 | Log e funil | store SQLite, consentimento, trilha, painel | +30 |
 | S6 | Acesso e privacidade | geo, VPN opcional, política, exclusão | +44 |
 | S7 | Endurecimento | CI, docs, dataset vazio, concorrência, revisão | +26 |
-| S8 | Programação oficial | grade da Final SBC 2026, filtro por dia, "acontecendo agora" | +24 |
+| S8 | Programação oficial | grade da Final SBC 2026, filtro por dia, "acontecendo agora", .ics e recado de 14/11 | +40 |
 
-**Total: 207 testes · 88% de cobertura do `app.py`.**
+**Total: 224 testes · 89% de cobertura do `app.py`.**
 
 ---
 

@@ -1,4 +1,4 @@
-.PHONY: help install run test cov lint check clean
+.PHONY: help install run test cov lint check ics clean
 
 PY := .venv/bin/python
 PIP := uv pip install --python $(PY)
@@ -10,6 +10,7 @@ help:
 	@echo "cov      testes com cobertura"
 	@echo "lint     ruff (checagem)"
 	@echo "check    lint + testes (o que o CI faz)"
+	@echo "ics      regera docs/programacao-final-sbc-2026.ics"
 
 install:
 	uv venv --python 3.11 .venv
@@ -28,6 +29,9 @@ lint:
 	.venv/bin/ruff check app.py tests
 
 check: lint test
+
+ics:
+	$(PY) scripts/gerar_ics.py
 
 clean:
 	rm -rf .pytest_cache .ruff_cache .coverage htmlcov
